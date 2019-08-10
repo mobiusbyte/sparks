@@ -24,7 +24,7 @@ jobs:
             - "/usr/local/lib/python3.7/site-packages"
       - run:
           command: |
-            pipenv run pytest --cov=spark tests/
+            pipenv run pytest --cov=spark test/
       - store_test_results:
           path: test-results
       - store_artifacts:

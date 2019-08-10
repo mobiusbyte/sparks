@@ -1,0 +1,7 @@
+This should be in the file.
+
+	This is an optional section and it is indented!
+
+This should also be in the file.
+
+	And this is the second optional section and it is also indented!

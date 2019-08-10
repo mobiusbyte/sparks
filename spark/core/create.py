@@ -2,6 +2,8 @@ import os
 from dataclasses import dataclass
 from jinja2 import Environment, FileSystemLoader
 
+SPARK_CONFIG_FILE = "spark_config.yaml"
+
 
 @dataclass
 class CreateCommand:
@@ -22,7 +24,7 @@ class CreateUseCase:
             if os.path.isdir(template_path):
                 os.makedirs(output_path)
                 self._create(template_path, output_path, context)
-            elif os.path.isfile(template_path):
+            elif os.path.isfile(template_path) and name != SPARK_CONFIG_FILE:
                 self._render_template(template_path, output_path, context)
 
     def _render_template(self, template_path, output_path, context):

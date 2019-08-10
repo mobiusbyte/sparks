@@ -33,6 +33,58 @@ class TestCreate:
                 "create_include_optional_file_sections",
                 {"include_optional_field": True},
             ),
+            pytest.param(
+                "with_optional_folders_files",
+                "create_include_folders_files",
+                {
+                    "include_optional_files": True,
+                    "include_optional_folder": True,
+                    "creation_rules": {
+                        "first/optional_folder": True,
+                        "first/optional_folder/another_optional_file": True,
+                        "second/optional_file.txt": True,
+                    },
+                },
+            ),
+            pytest.param(
+                "with_optional_folders_files",
+                "create_exclude_folders_include_files",
+                {
+                    "include_optional_files": True,
+                    "include_optional_folder": False,
+                    "creation_rules": {
+                        "first/optional_folder": False,
+                        "first/optional_folder/another_optional_file": True,
+                        "second/optional_file.txt": True,
+                    },
+                },
+            ),
+            pytest.param(
+                "with_optional_folders_files",
+                "create_include_folders_exclude_files",
+                {
+                    "include_optional_files": False,
+                    "include_optional_folder": True,
+                    "creation_rules": {
+                        "first/optional_folder": True,
+                        "first/optional_folder/another_optional_file": False,
+                        "second/optional_file.txt": False,
+                    },
+                },
+            ),
+            pytest.param(
+                "with_optional_folders_files",
+                "create_exclude_folders_exclude_files",
+                {
+                    "include_optional_files": False,
+                    "include_optional_folder": False,
+                    "creation_rules": {
+                        "first/optional_folder": False,
+                        "first/optional_folder/another_optional_file": False,
+                        "second/optional_file.txt": False,
+                    },
+                },
+            ),
         ],
     )
     def test_create(self, template, expected, context):

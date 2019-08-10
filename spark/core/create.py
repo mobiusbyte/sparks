@@ -2,7 +2,7 @@ import os
 from dataclasses import dataclass
 from jinja2 import Environment, FileSystemLoader
 
-SPARK_CONFIG_FILE = "spark_config.yaml"
+from spark.core import SPARK_CONFIG_FILE, CREATION_RULES
 
 
 @dataclass
@@ -14,21 +14,32 @@ class CreateCommand:
 
 class CreateUseCase:
     def execute(self, command):
-        self._create(command.template, command.output, command.context)
+        self._create(
+            self._abs_path(command.output),
+            command.template,
+            command.output,
+            command.context,
+        )
 
-    def _create(self, template, output, context):
+    def _create(self, base_output_path, template, output, context):
         for name in os.listdir(template):
             template_path = os.path.join(template, name)
             output_path = os.path.join(output, name)
 
-            if os.path.isdir(template_path):
+            if os.path.isdir(template_path) and self._should_create(
+                base_output_path, context, output_path
+            ):
                 os.makedirs(output_path)
-                self._create(template_path, output_path, context)
-            elif os.path.isfile(template_path) and name != SPARK_CONFIG_FILE:
+                self._create(base_output_path, template_path, output_path, context)
+            elif (
+                os.path.isfile(template_path)
+                and name != SPARK_CONFIG_FILE
+                and self._should_create(base_output_path, context, output_path)
+            ):
                 self._render_template(template_path, output_path, context)
 
     def _render_template(self, template_path, output_path, context):
-        parent_folder = os.path.abspath(os.path.join(template_path, ".."))
+        parent_folder = self._abs_path(os.path.join(template_path, ".."))
         jinja_env = Environment(
             loader=FileSystemLoader(parent_folder),
             trim_blocks=True,
@@ -38,3 +49,12 @@ class CreateUseCase:
         template = jinja_env.get_template(name)
         with open(output_path, "w") as fh:
             fh.write(template.render(**context))
+
+    def _should_create(self, base_output_path, context, output_path):
+        relative_output_path = self._abs_path(output_path).replace(
+            os.path.join(base_output_path, ""), ""
+        )
+        return context.get(CREATION_RULES, {}).get(relative_output_path, True)
+
+    def _abs_path(self, path):
+        return os.path.abspath(path)

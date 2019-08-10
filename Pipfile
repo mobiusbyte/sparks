@@ -10,6 +10,7 @@ pytest = "*"
 pytest-cov = "*"
 
 [packages]
+spark = {path = "."}
 
 [requires]
 python_version = "3.7"

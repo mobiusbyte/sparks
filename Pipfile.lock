@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "58799b55149a0f280172bfe551ede407a21dacf19cd21091b2c58bb45778678b"
+            "sha256": "5ca75b2702b0e8958ed6cdf8d75c46c0c3f8953a84a539c0c095e2b9924549da"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -15,7 +15,11 @@
             }
         ]
     },
-    "default": {},
+    "default": {
+        "spark": {
+            "path": "."
+        }
+    },
     "develop": {
         "appdirs": {
             "hashes": [

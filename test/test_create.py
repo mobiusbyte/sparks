@@ -1,30 +1,20 @@
-def test_create():
-    pass
+from shutil import rmtree
+
+from spark.create import CreateCommand, CreateUseCase
+from test import expected_folder, assert_folder, template_folder, tmp_folder
 
 
-def test_create_on_non_empty_directory_should_fail():
-    pass
+class TestCreate:
+    def setup(self):
+        self._tmp_folder = tmp_folder()
+        self._use_case = CreateUseCase()
 
+    def teardown(self):
+        rmtree(self._tmp_folder, ignore_errors=True)
 
-def test_create_exclude_optional_content():
-    pass
-
-
-def test_create_include_optional_content():
-    pass
-
-
-def test_create_exclude_optional_directory():
-    pass
-
-
-def test_create_include_optional_directory():
-    pass
-
-
-def test_create_exclude_optional_file():
-    pass
-
-
-def test_create_include_optional_file():
-    pass
+    def test_create_simple(self):
+        create_command = CreateCommand(
+            template=template_folder("simple_template"), output=self._tmp_folder
+        )
+        self._use_case.execute(create_command)
+        assert_folder(expected_folder("create_simple"), self._tmp_folder)

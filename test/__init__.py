@@ -1,3 +1,4 @@
+import json
 import os
 import random
 import string
@@ -51,6 +52,12 @@ def _assert_file(lhs_file, rhs_file):
         ]
 
         assert False, "".join(diffs)
+
+
+def assert_dicts(lhs, rhs):
+    assert json.dumps(lhs, sort_keys=True, indent=2) == json.dumps(
+        rhs, sort_keys=True, indent=2
+    )
 
 
 def tmp_folder():

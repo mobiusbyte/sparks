@@ -1,0 +1,6 @@
+include_optional_files: true
+include_optional_folder: true
+explicit_inclusion_rules:
+  first/optional_folder: include_optional_folder
+  first/optional_folder/another_optional_file: include_optional_files
+  second/optional_file.txt: include_optional_files

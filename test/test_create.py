@@ -85,6 +85,18 @@ class TestCreate:
                     },
                 },
             ),
+            pytest.param(
+                "with_custom_folder_and_file_paths",
+                "create_with_custom_folder_and_file_paths",
+                {
+                    "target_file_name": "marge",
+                    "target_folder_name": "homer",
+                    "include_optional_target_folder_name": False,
+                    "creation_rules": {
+                        "{{target_folder_name}}/segment1/{{optional_target_folder_name}}": False  # noqa
+                    },
+                },
+            ),
         ],
     )
     def test_create(self, template, expected, context):

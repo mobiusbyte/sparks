@@ -1,0 +1,5 @@
+target_file_name: marge
+target_folder_name: homer
+include_optional_target_folder_name: False
+creation_rules:
+  "{{target_folder_name}}/segment1/{{optional_target_folder_name}}": include_optional_target_folder_name

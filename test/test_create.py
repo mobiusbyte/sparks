@@ -14,7 +14,9 @@ class TestCreate:
 
     def test_create_simple(self):
         create_command = CreateCommand(
-            template=template_folder("simple_template"), output=self._tmp_folder
+            template=template_folder("simple_template"),
+            output=self._tmp_folder,
+            context={},
         )
         self._use_case.execute(create_command)
         assert_folder(expected_folder("create_simple"), self._tmp_folder)
@@ -23,8 +25,9 @@ class TestCreate:
         create_command = CreateCommand(
             template=template_folder("with_optional_file_sections"),
             output=self._tmp_folder,
+            context={"include_optional_field": False},
         )
         self._use_case.execute(create_command)
         assert_folder(
-            expected_folder("create_include_optional_file_sections"), self._tmp_folder
+            expected_folder("create_exclude_optional_file_sections"), self._tmp_folder
         )

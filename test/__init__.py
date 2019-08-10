@@ -1,6 +1,7 @@
 import os
 import random
 import string
+from difflib import context_diff
 
 
 def fixture_path(name):
@@ -30,9 +31,22 @@ def assert_folder(expected_folder, actual_folder):
             )
         elif os.path.isfile(actual_path):
             assert os.path.isfile(expected_path), expected_path
-            actual_contents = open(actual_path).read()
-            expected_contents = open(expected_path).read()
-            assert expected_contents == actual_contents
+            _assert_file(expected_path, actual_path)
+
+
+def _assert_file(expected, actual):
+    actual_contents = open(actual).read()
+    expected_contents = open(expected).read()
+
+    if expected_contents != actual_contents:
+        diffs = [
+            line
+            for line in context_diff(
+                expected_contents, actual_contents, fromfile=expected, tofile=actual
+            )
+        ]
+
+        assert False, "".join(diffs)
 
 
 def tmp_folder():

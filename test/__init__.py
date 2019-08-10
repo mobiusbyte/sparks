@@ -12,12 +12,12 @@ def template_folder(template_name):
     return os.path.join(fixture_path("templates"), template_name)
 
 
-def expected_folder(test_case_name):
-    return os.path.join(fixture_path("expectations"), f"{test_case_name}_test_case")
+def expected_folder(test_case):
+    return os.path.join(fixture_path("expectations"), test_case)
 
 
 def assert_folder(expected_folder, actual_folder):
-    assert os.path.isdir(actual_folder)
+    assert os.path.isdir(actual_folder), actual_folder
     for name in os.listdir(actual_folder):
         actual_path = os.path.join(actual_folder, name)
         expected_path = os.path.join(expected_folder, name)
@@ -29,7 +29,7 @@ def assert_folder(expected_folder, actual_folder):
                 actual_folder=os.path.join(actual_path),
             )
         elif os.path.isfile(actual_path):
-            assert os.path.isfile(expected_path)
+            assert os.path.isfile(expected_path), expected_path
 
 
 def tmp_folder():

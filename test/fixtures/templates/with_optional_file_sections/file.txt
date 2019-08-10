@@ -1,0 +1,11 @@
+This should be in the file.
+{% if spark.include_optional_field %}
+
+	This is an optional section and it is indented!
+{% endif %}
+
+This should also be in the file.
+{% if spark.include_optional_field %}
+
+	And this is the second optional section and it is also indented!
+{% endif %}

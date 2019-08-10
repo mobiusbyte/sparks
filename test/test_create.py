@@ -18,3 +18,13 @@ class TestCreate:
         )
         self._use_case.execute(create_command)
         assert_folder(expected_folder("create_simple"), self._tmp_folder)
+
+    def test_create_exclude_optinal_file_section(self):
+        create_command = CreateCommand(
+            template=template_folder("with_optional_file_sections"),
+            output=self._tmp_folder,
+        )
+        self._use_case.execute(create_command)
+        assert_folder(
+            expected_folder("create_include_optional_file_sections"), self._tmp_folder
+        )

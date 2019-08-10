@@ -39,7 +39,7 @@ class TestCreate:
                 {
                     "include_optional_files": True,
                     "include_optional_folder": True,
-                    "explicit_inclusion_rules": {
+                    "creation_rules": {
                         "first/optional_folder": True,
                         "first/optional_folder/another_optional_file": True,
                         "second/optional_file.txt": True,
@@ -52,7 +52,7 @@ class TestCreate:
                 {
                     "include_optional_files": True,
                     "include_optional_folder": False,
-                    "explicit_inclusion_rules": {
+                    "creation_rules": {
                         "first/optional_folder": False,
                         "first/optional_folder/another_optional_file": True,
                         "second/optional_file.txt": True,
@@ -65,7 +65,7 @@ class TestCreate:
                 {
                     "include_optional_files": False,
                     "include_optional_folder": True,
-                    "explicit_inclusion_rules": {
+                    "creation_rules": {
                         "first/optional_folder": True,
                         "first/optional_folder/another_optional_file": False,
                         "second/optional_file.txt": False,
@@ -78,7 +78,7 @@ class TestCreate:
                 {
                     "include_optional_files": False,
                     "include_optional_folder": False,
-                    "explicit_inclusion_rules": {
+                    "creation_rules": {
                         "first/optional_folder": False,
                         "first/optional_folder/another_optional_file": False,
                         "second/optional_file.txt": False,

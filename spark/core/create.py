@@ -2,7 +2,7 @@ import os
 from dataclasses import dataclass
 from jinja2 import Environment, FileSystemLoader
 
-from spark.core import SPARK_CONFIG_FILE, EXPLICIT_INCLUSION_RULES
+from spark.core import SPARK_CONFIG_FILE, CREATION_RULES
 
 
 @dataclass
@@ -26,7 +26,7 @@ class CreateUseCase:
             template_path = os.path.join(template, name)
             output_path = os.path.join(output, name)
 
-            if os.path.isdir(template_path) and self._should_exist(
+            if os.path.isdir(template_path) and self._should_create(
                 base_output_path, context, output_path
             ):
                 os.makedirs(output_path)
@@ -34,7 +34,7 @@ class CreateUseCase:
             elif (
                 os.path.isfile(template_path)
                 and name != SPARK_CONFIG_FILE
-                and self._should_exist(base_output_path, context, output_path)
+                and self._should_create(base_output_path, context, output_path)
             ):
                 self._render_template(template_path, output_path, context)
 
@@ -50,11 +50,11 @@ class CreateUseCase:
         with open(output_path, "w") as fh:
             fh.write(template.render(**context))
 
-    def _should_exist(self, base_output_path, context, output_path):
+    def _should_create(self, base_output_path, context, output_path):
         relative_output_path = self._abs_path(output_path).replace(
             os.path.join(base_output_path, ""), ""
         )
-        return context.get(EXPLICIT_INCLUSION_RULES, {}).get(relative_output_path, True)
+        return context.get(CREATION_RULES, {}).get(relative_output_path, True)
 
     def _abs_path(self, path):
         return os.path.abspath(path)

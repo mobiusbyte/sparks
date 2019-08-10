@@ -28,11 +28,7 @@ class TestContextUserInterface:
         assert prompter.total_calls == 2
         assert_dicts(
             spark_config,
-            {
-                "roses": "dark red",
-                "violets": "blue-ish",
-                "explicit_inclusion_rules": {},
-            },
+            {"roses": "dark red", "violets": "blue-ish", "creation_rules": {}},
         )
 
     def test_resolve_spark_config_skip(self):
@@ -43,7 +39,7 @@ class TestContextUserInterface:
 
         assert_dicts(
             ui.resolve_spark_config(),
-            {"roses": "red", "violets": "blue", "explicit_inclusion_rules": {}},
+            {"roses": "red", "violets": "blue", "creation_rules": {}},
         )
 
     @pytest.mark.parametrize(
@@ -54,7 +50,7 @@ class TestContextUserInterface:
                 {
                     "include_optional_files": True,
                     "include_optional_folder": True,
-                    "explicit_inclusion_rules": {
+                    "creation_rules": {
                         "first/optional_folder": True,
                         "first/optional_folder/another_optional_file": True,
                         "second/optional_file.txt": True,
@@ -66,7 +62,7 @@ class TestContextUserInterface:
                 {
                     "include_optional_files": False,
                     "include_optional_folder": True,
-                    "explicit_inclusion_rules": {
+                    "creation_rules": {
                         "first/optional_folder": True,
                         "first/optional_folder/another_optional_file": False,
                         "second/optional_file.txt": False,
@@ -78,7 +74,7 @@ class TestContextUserInterface:
                 {
                     "include_optional_files": True,
                     "include_optional_folder": False,
-                    "explicit_inclusion_rules": {
+                    "creation_rules": {
                         "first/optional_folder": False,
                         "first/optional_folder/another_optional_file": True,
                         "second/optional_file.txt": True,
@@ -90,7 +86,7 @@ class TestContextUserInterface:
                 {
                     "include_optional_files": False,
                     "include_optional_folder": False,
-                    "explicit_inclusion_rules": {
+                    "creation_rules": {
                         "first/optional_folder": False,
                         "first/optional_folder/another_optional_file": False,
                         "second/optional_file.txt": False,

@@ -1,4 +1,5 @@
 from spark.console.prompt import ContextUserInterface
+from test import fixture_path
 
 
 class PrompterDouble:
@@ -7,14 +8,14 @@ class PrompterDouble:
 
         self.total_calls = 0
 
-    def prompt(self, question, default_value):
+    def prompt(self, question, default, type):
         self.total_calls += 1
         return self.answers.get(question)
 
 
 class TestContextUserInterface:
     def setup(self):
-        self._default_config = {"roses": "red", "violets": "blue"}
+        self._default_config = fixture_path("sample_spark_config.yaml")
 
     def test_resolve_spark_config(self):
         prompter = PrompterDouble()
@@ -29,4 +30,5 @@ class TestContextUserInterface:
         ui = ContextUserInterface(
             PrompterDouble(), self._default_config, skip_prompt=True
         )
-        assert ui.resolve_spark_config() == self._default_config
+
+        assert ui.resolve_spark_config() == {"roses": "red", "violets": "blue"}

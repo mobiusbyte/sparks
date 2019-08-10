@@ -1,0 +1,15 @@
+fail_fast: true
+repos:
+-   repo: https://github.com/ambv/black
+    rev: stable
+    hooks:
+    - id: black
+      language_version: python3.7
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.2.3
+    hooks:
+      - id: check-ast
+      - id: flake8
+      - id: no-commit-to-branch
+        args: ['--branch', 'master', '--pattern', 'release/.*']
+      - id: trailing-whitespace

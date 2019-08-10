@@ -30,6 +30,9 @@ def assert_folder(expected_folder, actual_folder):
             )
         elif os.path.isfile(actual_path):
             assert os.path.isfile(expected_path), expected_path
+            actual_contents = open(actual_path).read()
+            expected_contents = open(expected_path).read()
+            assert expected_contents == actual_contents
 
 
 def tmp_folder():

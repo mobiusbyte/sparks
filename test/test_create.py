@@ -1,6 +1,6 @@
 from shutil import rmtree
 
-from spark.create import CreateCommand, CreateUseCase
+from spark.core.create import CreateCommand, CreateUseCase
 from test import expected_folder, assert_folder, template_folder, tmp_folder
 
 

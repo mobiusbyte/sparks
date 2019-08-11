@@ -1,6 +1,6 @@
 import yaml
 
-from spark.core import CREATION_RULES
+from sparks.core import CREATION_RULES
 
 
 class ContextUserInterface:

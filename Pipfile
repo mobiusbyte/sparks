@@ -8,10 +8,11 @@ black = "==19.3b0"
 pre-commit = "*"
 pytest = "*"
 pytest-cov = "*"
+check-manifest = "*"
 
 [packages]
 click = "*"
-spark = {path = "."}
+sparks = {path = "."}
 jinja2 = "*"
 pyyaml = "*"
 

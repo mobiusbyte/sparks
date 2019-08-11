@@ -2,7 +2,7 @@ import os
 
 import pytest
 
-from spark.console.prompt import ContextUserInterface
+from sparks.console.prompt import ContextUserInterface
 from test import fixture_path, assert_dicts
 
 

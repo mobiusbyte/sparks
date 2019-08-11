@@ -2,9 +2,9 @@ import os
 
 import click
 
-from spark.console.commands import command_name
-from spark.console.prompt import ContextUserInterface
-from spark.core.create import CreateCommand, CreateUseCase, SPARK_CONFIG_FILE
+from sparks.console.commands import command_name
+from sparks.console.prompt import ContextUserInterface
+from sparks.core.create import CreateCommand, CreateUseCase, SPARK_CONFIG_FILE
 
 
 @click.command(name=command_name(__name__))

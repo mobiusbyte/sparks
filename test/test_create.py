@@ -2,7 +2,7 @@ from shutil import rmtree
 
 import pytest
 
-from spark.core.create import CreateCommand, CreateUseCase
+from sparks.core.create import CreateCommand, CreateUseCase
 from test import expected_folder, assert_folder, template_folder, tmp_folder
 
 

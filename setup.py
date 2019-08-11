@@ -1,9 +1,10 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="spark",
+    name="sparks",
     version="0.1.0",
     author="Jill San Luis",
-    packages=find_packages(),
-    entry_points={"console_scripts": ["spark=spark.console.cli:main"]},
+    license="MIT",
+    packages=find_packages(exclude=["test", "test.*"]),
+    entry_points={"console_scripts": ["sparks=sparks.console.cli:main"]},
 )

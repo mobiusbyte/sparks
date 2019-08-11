@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/circleci-binaryart-spark
+    working_directory: ~/circleci-binaryart-sparks
     docker:
       - image: circleci/python:3.7
         environment:
@@ -24,7 +24,7 @@ jobs:
             - "/usr/local/lib/python3.7/site-packages"
       - run:
           command: |
-            pipenv run pytest --cov=spark test/
+            pipenv run pytest --cov=sparks test/
       - store_test_results:
           path: test-results
       - store_artifacts:

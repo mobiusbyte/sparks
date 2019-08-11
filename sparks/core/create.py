@@ -2,7 +2,7 @@ import os
 from dataclasses import dataclass
 from jinja2 import Environment, FileSystemLoader, Template
 
-from spark.core import SPARK_CONFIG_FILE, CREATION_RULES
+from sparks.core import SPARK_CONFIG_FILE, CREATION_RULES
 
 
 @dataclass

@@ -1,0 +1,8 @@
+include *.lock
+include *.yaml
+include .coveragerc
+include LICENSE
+include Pipfile
+recursive-include test *.py
+recursive-include test *.txt
+recursive-include test *.yaml

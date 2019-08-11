@@ -10,10 +10,12 @@ Sparks is a minimal command-line tool to manage customizable project folders fro
 ## Table of Contents
 Optionally, include a table of contents in order to allow other people to quickly navigate especially long or detailed READMEs.
 -->
-<!--
 ## Installation
-Installation is the next section in an effective README. Tell other users how to install your project locally. Optionally, include a gif to make the process even more clear for other people.
--->
+Run the following to install:
+```bash
+pip install sparks
+```
+
 <!--
 ## Usage
 -->

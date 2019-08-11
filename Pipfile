@@ -9,6 +9,7 @@ pre-commit = "*"
 pytest = "*"
 pytest-cov = "*"
 check-manifest = "*"
+twine = "*"
 
 [packages]
 click = "*"

@@ -16,9 +16,20 @@ Run the following to install:
 pip install sparks
 ```
 
-<!--
 ## Usage
--->
+
+### Creating a new project
+```bash
+sparks create --help
+Usage: sparks create [OPTIONS]
+
+Options:
+  --template TEXT  Template folder to generate from
+  --output TEXT    Output folder to create files in
+  --skip-prompt
+  --help           Show this message and exit
+```
+
 <!--
 ## Contributing
 For guidance on setting up a development environment and how to make a contribution to Sparks, see the [contributing guidelines](https://github.com/binaryart/sparks).

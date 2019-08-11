@@ -30,10 +30,38 @@ Options:
   --help           Show this message and exit
 ```
 
-<!--
+
 ## Contributing
-For guidance on setting up a development environment and how to make a contribution to Sparks, see the [contributing guidelines](https://github.com/binaryart/sparks).
--->
+
+### Development setup
+1. Install `pipenv`
+	```bash
+	pip install pipenv
+	```
+2. Clone this repository and activate your environment
+	```bash
+	bash-3.2$ git clone git@github.com:binaryart/sparks.git
+	bash-3.2$ cd sparks
+	bash-3.2$ pipenv shell
+	(sparks) bash-3.2$ pipenv install --dev
+	(sparks) bash-3.2$ pre-config install
+	```
+3. Make your changes in the application and test code
+4. Run the tests
+	```bash
+	(sparks) bash-3.2$ pytest test
+	```
+5. Commit your changes. The commit will fail if any of the `pre-commit` rules failed their check. Simply follow the instructions from the console to fix the check failures.
+
+### Publishing
+1. Bump the version in `setup.py`
+2. Merge this change to `master` branch
+3. Generate the distribution packages and upload it to PyPI
+	```bash
+	(sparks) bash-3.2$ python setup.py bdist_wheel sdist
+	(sparks) bash-3.2$ twine upload dist/*
+	```
+
 <!--
 ## Credits
 Include a section for credits in order to highlight and link to the authors of your project.

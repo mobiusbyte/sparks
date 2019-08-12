@@ -24,10 +24,12 @@ sparks create --help
 Usage: sparks create [OPTIONS]
 
 Options:
-  --template TEXT  Template folder to generate from
-  --output TEXT    Output folder to create files in
-  --skip-prompt
-  --help           Show this message and exit
+  -t, --template TEXT  Template folder to generate from
+  -o, --output TEXT    Output folder to create files in. The folder will be
+                       created if it does not already exist.
+  --skip-prompt        Skips the prompt and uses the default settings as
+                       specified in the spark_config.yaml.
+  --help               Show this message and exit.
 ```
 
 

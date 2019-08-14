@@ -22,26 +22,34 @@ class CreateUseCase:
         )
 
     def _create(self, base_template_path, template, output, context):
+        for template_path in self._list_dir(template):
+            if self._should_create(base_template_path, context, template_path):
+                output_path = os.path.join(
+                    output, self._rendered_name(template_path, context)
+                )
+                if os.path.isdir(template_path):
+                    os.makedirs(output_path)
+                    self._create(
+                        base_template_path, template_path, output_path, context
+                    )
+                else:
+                    self._render_template(template_path, output_path, context)
+
+    @staticmethod
+    def _list_dir(template):
         for name in os.listdir(template):
             template_path = os.path.join(template, name)
-            output_path = os.path.join(output, self._rendered_name(name, context))
 
-            if os.path.isdir(template_path) and self._should_create(
-                base_template_path, context, template_path
-            ):
-                os.makedirs(output_path)
-                self._create(base_template_path, template_path, output_path, context)
-            elif (
-                os.path.isfile(template_path)
-                and name != SPARK_CONFIG_FILE
-                and self._should_create(base_template_path, context, template_path)
-            ):
-                self._render_template(template_path, output_path, context)
+            if os.path.isdir(template_path):
+                yield template_path
+            elif os.path.isfile(template_path) and name != SPARK_CONFIG_FILE:
+                yield template_path
 
     def _abs_path(self, path):
         return os.path.abspath(path)
 
-    def _rendered_name(self, name, context):
+    def _rendered_name(self, template_path, context):
+        name = os.path.basename(template_path)
         return Template(name).render(**context)
 
     def _should_create(self, base_template_path, context, template_path):

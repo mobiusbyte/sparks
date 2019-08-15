@@ -1,5 +1,6 @@
 # Sparks
-<!-- insert badges here -->
+[![Maintainability](https://api.codeclimate.com/v1/badges/f12ace4056c914eb05ba/maintainability)](https://codeclimate.com/github/binaryart/sparks/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/f12ace4056c914eb05ba/test_coverage)](https://codeclimate.com/github/binaryart/sparks/test_coverage)
+
 Sparks is a minimal command-line tool to manage customizable project folders from templates.
 
 ## Features

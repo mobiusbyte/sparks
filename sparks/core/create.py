@@ -5,6 +5,10 @@ from jinja2 import Environment, FileSystemLoader, Template
 from sparks.core import SPARK_CONFIG_FILE, CREATION_RULES
 
 
+PATH_FOLDER = "folder"
+PATH_FILE = "file"
+
+
 @dataclass
 class CreateCommand:
     template: str
@@ -12,28 +16,23 @@ class CreateCommand:
     context: dict
 
 
-class CreateUseCase:
-    def execute(self, command):
-        self._create(
-            self._abs_path(command.template),
-            command.template,
-            command.output,
-            command.context,
-        )
+class CreateResolver:
+    def __init__(self, base_template_folder, context):
+        self._context = context
+        self._base_template_folder = base_template_folder
+        self._handlers = {
+            PATH_FILE: self._handle_file,
+            PATH_FOLDER: self._handle_folder,
+        }
 
-    def _create(self, base_template_path, template, output, context):
-        for template_path in self._list_dir(template):
-            if self._should_create(base_template_path, context, template_path):
+    def create(self, template, base_output_folder):
+        for path_type, template_path in self._list_dir(template):
+            if self._should_create(template_path):
                 output_path = os.path.join(
-                    output, self._rendered_name(template_path, context)
+                    base_output_folder,
+                    self._rendered_name(template_path, self._context),
                 )
-                if os.path.isdir(template_path):
-                    os.makedirs(output_path)
-                    self._create(
-                        base_template_path, template_path, output_path, context
-                    )
-                else:
-                    self._render_template(template_path, output_path, context)
+                self._handlers[path_type](template_path, output_path)
 
     @staticmethod
     def _list_dir(template):
@@ -41,31 +40,32 @@ class CreateUseCase:
             template_path = os.path.join(template, name)
 
             if os.path.isdir(template_path):
-                yield template_path
+                yield PATH_FOLDER, template_path
             elif os.path.isfile(template_path) and name != SPARK_CONFIG_FILE:
-                yield template_path
+                yield PATH_FILE, template_path
 
-    def _abs_path(self, path):
-        return os.path.abspath(path)
+    def _should_create(self, template_path):
+        relative_template_path = self._abs_path(template_path).replace(
+            os.path.join(self._base_template_folder, ""), ""
+        )
+
+        return self._context.get(CREATION_RULES, {}).get(relative_template_path, True)
 
     def _rendered_name(self, template_path, context):
         name = os.path.basename(template_path)
         return Template(name).render(**context)
 
-    def _should_create(self, base_template_path, context, template_path):
-        relative_template_path = self._abs_path(template_path).replace(
-            os.path.join(base_template_path, ""), ""
-        )
+    def _handle_folder(self, template_path, output_path):
+        os.makedirs(output_path)
+        self.create(template_path, output_path)
 
-        return context.get(CREATION_RULES, {}).get(relative_template_path, True)
-
-    def _render_template(self, template_path, output_path, context):
+    def _handle_file(self, template_path, output_path):
         jinja_env = self._jinja_env(template_path)
         name = os.path.basename(template_path)
 
         template = jinja_env.get_template(name)
         with open(output_path, "w") as fh:
-            fh.write(template.render(**context))
+            fh.write(template.render(**self._context))
 
     def _jinja_env(self, template_path):
         parent_folder = self._abs_path(os.path.join(template_path, ".."))
@@ -75,3 +75,12 @@ class CreateUseCase:
             trim_blocks=True,
             keep_trailing_newline=True,
         )
+
+    def _abs_path(self, path):
+        return os.path.abspath(path)
+
+
+class CreateUseCase:
+    def execute(self, command):
+        resolver = CreateResolver(os.path.abspath(command.template), command.context)
+        resolver.create(command.template, command.output)

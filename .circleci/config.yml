@@ -10,6 +10,7 @@ jobs:
       - checkout
       - run: sudo chown -R circleci:circleci /usr/local/bin
       - run: sudo chown -R circleci:circleci /usr/local/lib/python3.7/site-packages
+
       - restore_cache:
           key: deps9-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
       - run:
@@ -22,11 +23,28 @@ jobs:
             - ".venv"
             - "/usr/local/bin"
             - "/usr/local/lib/python3.7/site-packages"
+
       - run:
+          name: Setup Code Climate test-reporter
           command: |
-            pipenv run pytest --cov=sparks test/
+            # download test reporter as a static binary
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+            ./cc-test-reporter before-build
+          when: always
+
+      - run:
+          name: run tests
+          command: |
+            mkdir test-reports
+            pipenv run pytest --cov=sparks --cov-report=xml test/
+
+      - run:
+          name: Send coverage report to Code Climate
+          command: |
+            ./cc-test-reporter after-build --id $CC_TEST_REPORTER_ID --exit-code $?
+
       - store_test_results:
-          path: test-results
+          path: test-reports
       - store_artifacts:
-          path: test-results
-          destination: tr1
+          path: test-reports
